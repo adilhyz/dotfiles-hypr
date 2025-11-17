@@ -16,8 +16,8 @@ backup_folder=~/.RiceBackup
 ERROR_LOG="$HOME/RiceError.log"
 
 logo () {
-	local text="${1:?}"
-	echo -en "
+    local text="${1:?}"
+    echo -en "
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠁⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠹⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⣾⠇⠀⠀⠀⠀⠀⠀⠀⠀
@@ -109,9 +109,8 @@ install_dependencies() {
     logo "Installing needed packages.."
     sleep 2
 
-    # List of dependencies ##error packages physlock xautolock ttf-joypixels
-    # Dependencies sebagai array
-    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh rofi swaybg swww swaync hyprpolkitagent matugen dunst brightnessctl pamixer libnotify)
+    # Dependencies
+    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh rofi swaybg swww swaync hyprpolkitagent matugen brightnessctl pamixer libnotify)
 
     printf "\n%b\n\n" "${BLD}${BRU}Checking for required packages...${RST}"
     sleep 2
@@ -389,7 +388,7 @@ install_aur() {
     logo "Installing AUR dependencies."
     sleep 2
 
-    logo "installing Yay, Paru, Adilhyz-repo (Needed), Neofetch, Xwinwrap, i3lock, Eww, Fzf-tab, Cpuid, & xqp"
+    logo "installing Yay, Paru, Adilhyz-repo (Needed), Neofetch, Cava, Fzf-tab, Cpuid"
 
     if ! command -v yay >/dev/null 2>&1; then
         printf "%s%sInstalling yay%s\n" "${BLD}" "${BRU}" "${RST}"
