@@ -1,0 +1,6 @@
+#!/bin/bash
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=Hyprland
+export SDL_VIDEODRIVER=wayland
+export QT_QPA_PLATFORM=wayland
+exec Hyprland

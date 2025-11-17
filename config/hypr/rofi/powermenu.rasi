@@ -1,0 +1,115 @@
+@theme "/dev/null"
+@import "colors.rasi"
+
+configuration {
+    hover-select:               true;
+    me-select-entry:            "";
+    me-accept-entry:            "MousePrimary";
+}
+
+
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       50%;
+    x-offset:                    0px;
+    y-offset:                    0px;
+    background-color:            @surface-dim;
+    border-radius:               12px;
+    border:                      2px;
+    border-color:                @outline;
+    border-radius:               12px;
+}
+
+mainbox {
+    enabled:                     true;
+    spacing:                     15px;
+    padding:                     30px;
+    background-color:            @surface-dim;
+    children:                    [ "inputbar", "listview" ];
+}
+
+inputbar {
+    enabled:                     true;
+    spacing:                     15px;
+    border-color:                @primary;
+    background-color:            transparent;
+    text-color:                  @inverse-surface;
+    children:                    [ "textbox-prompt-colon", "prompt" ];
+}
+
+textbox-prompt-colon {
+    enabled:                     true;
+    expand:                      false;
+    font:                        "JetBrainsMono Nerd Font Bold 11";
+    str:                         "  ";
+    padding:                     12px 16px 12px 12px;
+    background-color:            @error;
+    border-radius:               12px;
+    text-color:                  @surface-dim;
+}
+
+prompt {
+    font:                        "JetBrainsMono Nerd Font Bold 11";
+    enabled:                     true;
+    padding:                     12px;
+    border-radius:               12px;
+    background-color:            @active;
+    text-color:                  @surface-dim;
+}
+
+message {
+    enabled:                     true;
+    padding:                     12px;
+    border-radius:               12px;
+    border-color:                @primary;
+    background-color:            @surface-dim-alt;
+    text-color:                  @inverse-surface;
+}
+
+listview {
+    enabled:                     true;
+    columns:                     5;
+    lines:                       1;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    
+    spacing:                     15px;
+    border-color:                @primary;
+    border-radius:               12px;
+    background-color:            transparent;
+    text-color:                  @inverse-surface;
+    cursor:                      "default";
+}
+
+element {
+    enabled:                     true;
+    padding:                     40px 10px;
+    border:                      0px solid;
+    border-radius:               0px;
+    background-color:            @surface-bright;
+    text-color:                  @inverse-surface;
+    cursor:                      pointer;
+    border-radius:               12px;
+}
+
+element-text {
+    font:                        "Material Design Icons Desktop 36";
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+element selected.normal {
+    background-color:            @primary;
+    text-color:                  @surface-dim;
+}

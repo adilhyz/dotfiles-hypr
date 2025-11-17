@@ -1,0 +1,516 @@
+#!/bin/bash
+## ┃┏━ ┏━┛━┏┛┏━┃┃  ┃  ┏━┛┏━┃
+## ┃┃ ┃━━┃ ┃ ┏━┃┃  ┃  ┏━┛┏┏┛
+## ┛┛ ┛━━┛ ┛ ┛ ┛━━┛━━┛━━┛┛ ┛
+#	Script to install hyprland Dotfiles
+
+MER=$(tput setaf 1)     # Red
+KUN=$(tput setaf 3)     # Yellow
+HIJ=$(tput setaf 2)     # Green
+BRU=$(tput setaf 4)     # Blue
+BLD=$(tput bold)        # Bold
+RST=$(tput sgr0)        # Reset colors
+
+# Global vars
+backup_folder=~/.RiceBackup
+ERROR_LOG="$HOME/RiceError.log"
+
+logo () {
+	local text="${1:?}"
+	echo -en "
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠁⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠹⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⣾⠇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠘⣿⣷⡀⠀⠀⠀⠀⠀⠀⢀⠔⡢⣢⣾⠟⠁⠂⢒⠄⣀⣤⠀⣼⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⠆⠀⠀⣼⠀⠀⠈⠀⠐⢿⡏⠀⣈⠐⣡⣞⠛⡌⣰⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⠀⠀⢠⡇⠀⠀⠀⠀⠀⠀⠀⢐⠀⢇⡏⡂⠊⠀⡁⠀⢅⣀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣷⠀⠀⠀⠀⠀⠀⠀⠘⣴⡿⠓⠁⢀⣶⡟⠲⣿⡿⠛⢦⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠞⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠐⠈⠀⠀⠸⠋⠀⢘⡧⠀⠈⠨⠸⠇⣼⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡇⠁⢀⠀⢳⣶⡾⠀⠀⠀⢰⡖⣀⣬⠶⣋⣀⣀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣬⣑⠮⡄⠀⠉⡄⠀⠀⢠⠾⣛⠉⢀⣸⡟⠉⠀⠀⠀⣤⡄⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠺⣄⠘⡇⠀⡇⠀⠀⡿⠆⠠⣤⡼⠟⠀⢀⠀⠐⠀⠉⠻⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠘⢆⢹⡄⣧⠀⠰⢇⠀⣻⡿⠀⠀⠀⠁⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢆⠀⣿⣴⣾⠀⢸⣿⠃⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⡇⠀⠀⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+
+        adilhyz Hyprland dotfiles\n\n"
+    printf ' %s [%s%s %s%s %s]%s\n\n' "${MER}" "${RST}" "${KUN}" "${text}" "${RST}" "${MER}" "${RST}"
+}
+
+# Handle errors
+log_error() {
+    local error_msg="$1"
+    local timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+
+    echo "[${timestamp}] ERROR: ${error_msg}" >> "$ERROR_LOG"
+
+    printf "%s%sERROR:%s %s\n" "${MER}" "${BLD}" "${RST}" "${error_msg}" >&2
+}
+
+is_installed() {
+    pacman -Qq "$1" >/dev/null 2>&1
+}
+
+home_dir=$HOME
+current_dir=$(pwd)
+
+# Init
+initial_checks() {
+    # User root
+    if [ "$(id -u)" = 0 ]; then
+        log_error "This script MUST NOT be run as root user."
+        exit 1
+    fi
+
+    # Check HOME
+    if [ "$PWD" != "$HOME" ]; then
+        log_error "The script must be executed from HOME directory."
+        exit 1
+    fi
+
+    # Check internet
+    if ! ping -q -c 1 -W 1 8.8.8.8 &>/dev/null; then
+        log_error "No internet connection detected."
+        exit 1
+    fi
+}
+
+welcome() {
+    logo "Welcome $USER"
+    printf "%b" "${BLD}${HIJ}This script will install my dotfiles and this is what it will do:${RST}
+
+  ${BLD}${HIJ}[${CYE}i${HIJ}]${RST} Check necessary dependencies and install them
+  ${BLD}${HIJ}[${CYE}i${HIJ}]${RST} Download my dotfiles in ${HOME}/dotfiles-hypr
+    
+${BLD}${HIJ}[${MER}!${HIJ}]${RST} ${BLD}${MER}My dotfiles DO NOT modify any of your system configurations${RST}
+${BLD}${HIJ}[${MER}!${HIJ}]${RST} ${BLD}${MER}This script does NOT have the potential power to break your system${RST}"
+
+    local yn
+    while true; do
+        read -rp " ${BLD}${HIJ}Do you wish to continue?${RST} [y/N]: " yn
+        case "${yn,,}" in
+            y|yes)
+                return 0
+                ;;
+            n|no|"")
+                echo -e "\n${BLD}${KUN}Operation cancelled${RST}"
+                exit 0
+                ;;
+            *)
+                echo -e "\n${BLD}${MER}Error:${RST} Just write '${BLD}${KUN}y${RST}' or '${BLD}${KUN}n${RST}'\n"
+                ;;
+        esac
+    done
+}
+
+install_dependencies() {
+    clear
+    logo "Installing needed packages.."
+    sleep 2
+
+    # List of dependencies ##error packages physlock xautolock ttf-joypixels
+    # Dependencies sebagai array
+    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh rofi swaybg swww swaync hyprpolkitagent matugen dunst brightnessctl pamixer libnotify)
+
+    printf "\n%b\n\n" "${BLD}${BRU}Checking for required packages...${RST}"
+    sleep 2
+
+    # Detect missing packages
+    local missing_pkgs=()
+    for pkg in "${dependencies[@]}"; do
+        if ! is_installed "$pkg"; then
+            missing_pkgs+=("$pkg")
+            echo -e " ${BLD}${KUN}${pkg} ${MER}not installed${RST}"
+        else
+            echo -e "${BLD}${HIJ}${pkg} ${BRU}already installed${RST}"
+        fi
+    done
+
+    # Batch installation
+    if ((${#missing_pkgs[@]} > 0)); then
+        echo -e "\n${BLD}${KUN}Installing ${#missing_pkgs[@]} packages...${RST}\n"
+
+        if sudo pacman -S --noconfirm --needed "${missing_pkgs[@]}" >> "$ERROR_LOG" 2>&1; then
+            # Verify complete installation
+            local failed_pkgs=()
+            for pkg in "${missing_pkgs[@]}"; do
+                if ! is_installed "$pkg"; then
+                    failed_pkgs+=("$pkg")
+                    log_error "Failed to install: $pkg"
+                fi
+            done
+
+            # Show final results
+            if ((${#failed_pkgs[@]} == 0)); then
+                echo -e "${BLD}${HIJ}All packages installed successfully!${RST}\n\n"
+            else
+                echo -e "${BLD}${MER}Failed to install ${#failed_pkgs[@]} packages:${RST}\n"
+                echo -e "  ${BLD}${KUN}${failed_pkgs[*]}${RST}\n\n"
+            fi
+        else
+            log_error "Critical error during batch installation"
+            echo -e "${BLD}${MER}Installation failed! Check log for details${RST}\n"
+            return 1
+        fi
+    else
+        echo -e "\n${BLD}${HIJ}All dependencies are already installed!${RST}"
+    fi
+
+    sleep 3
+}
+
+
+install_adilhyz_dependencies() {
+    clear
+    logo "Installing needed packages from adilhyz repository..."
+    sleep 2
+
+    # List of dependencies
+    adilhyz_dependencies="adilhyz-icons adilhyz-themes adilhyz-cursors"
+
+    printf "%b\n\n" "${BLD}${BRU}Checking for required packages...${RST}"
+    sleep 2
+
+    # Detect missing packages
+    missing_adilhyz_repo=""
+    for pkg in $adilhyz_dependencies; do
+        if ! is_installed "$pkg"; then
+            missing_adilhyz_repo="$missing_adilhyz_repo $pkg"
+            printf "%b\n" " ${BLD}${KUN}$pkg ${MER}not installed${RST}"
+        else
+            printf "%b\n" "${BLD}${HIJ}$pkg ${BRU}already installed${RST}"
+        fi
+    done
+
+    # Batch installation if needed
+    if [ -n "$(printf "%s" "$missing_adilhyz_repo" | tr -s ' ')" ]; then
+        count=$(printf "%s" "$missing_adilhyz_repo" | wc -w)
+        printf "\n%b\n\n" "${BLD}${KUN}Installing $count packages, please wait...${RST}"
+
+        if sudo pacman -S --noconfirm $missing_adilhyz_repo 2>&1 | tee -a "$ERROR_LOG" >/dev/null; then
+            # Verify complete installation
+            failed_adilhyz_repo=""
+            for pkg in $missing_adilhyz_repo; do
+                if ! is_installed "$pkg"; then
+                    failed_adilhyz_repo="$failed_adilhyz_repo $pkg"
+                    log_error "Failed to install: $pkg"
+                fi
+            done
+
+            # Show final results
+            if [ -z "$(printf "%s" "$failed_adilhyz_repo" | tr -s ' ')" ]; then
+                printf "%b\n\n" "${BLD}${HIJ}All packages installed successfully!${RST}"
+            else
+                fail_count=$(printf "%s" "$failed_adilhyz_repo" | wc -w)
+                printf "%b\n" "${BLD}${MER}Failed to install $fail_count packages:${RST}"
+                printf "%b\n\n" "  ${BLD}${KUN}$(printf "%s" "$failed_adilhyz_repo")${RST}"
+            fi
+        else
+            log_error "Critical error during batch installation"
+            printf "%b\n" "${BLD}${MER}Installation failed! Check log for details${RST}"
+            return 1
+        fi
+    else
+        printf "\n%b\n" "${BLD}${HIJ}All dependencies are already installed!${RST}"
+    fi
+
+    sleep 2
+}
+
+
+clone_dotfiles() {
+    clear
+    logo "Downloading dotfiles"
+    local repo_url="https://github.com/adilhyz/dotfiles-hypr"
+    local repo_dir="$HOME/dotfiles-hypr"
+    local timestamp=$(date +%Y%m%d-%H%M%S)
+    sleep 3
+
+    # Handle existing repository
+    if [[ -d "$repo_dir" ]]; then
+        local backup_dir="${repo_dir}_${timestamp}"
+        echo -en "${BLD}${KUN}Existing repository found - renaming to: ${BRU}${backup_dir}${RST}\n"
+
+        if ! mv -v "$repo_dir" "$backup_dir" >> "$ERROR_LOG" 2>&1; then
+            log_error "Failed to rename existing repository"
+            echo -en "${BLD}${MER}Renaming failed! Check${KUN}RiceError.log${RST}\n"
+            return 1
+        fi
+        echo -en "${BLD}${HIJ}Repository successfully renamed for backup${RST}\n\n"
+    fi
+
+    # Clone new repository
+    echo -en "${BLD}${KUN}Cloning dotfiles from: ${BRU}${repo_url}${RST}\n"
+    if git clone --recurse-submodules --depth=1 "$repo_url" "$repo_dir" >> "$ERROR_LOG" 2>&1; then
+        echo -en "${BLD}${HIJ}Dotfiles cloned successfully!${RST}\n\n"
+    else
+        log_error "Repository clone failed"
+        echo -en "${BLD}${MER}Clone failed! Check ${KUN}RiceError.log${RST}\n"
+        return 1
+    fi
+
+    sleep 3
+}
+
+backup_existing_config() {
+    clear
+    logo "Backup files"
+    printf "Backup files will be stored in %s%s%s/.RiceBackup%s \n\n" "${BLD}" "${MER}" "$HOME" "${RST}"
+    sleep 2
+
+    # Create backup directory
+    mkdir -p "$backup_folder" 2>> "$ERROR_LOG"
+    echo -en "\n${BLD}${KUN}Backup directory: ${BRU}${backup_folder}${RST}\n\n"
+    sleep 2
+
+    # Generic backup function
+    backup_item() {
+        local type=$1 path=$2 target=$3
+        local base_name=$(basename "$path")
+
+        if [ -$type "$path" ]; then
+            if mv "$path" "$backup_folder/${target}_${date}" 2>> "$ERROR_LOG"; then
+                echo -en "${BLD}${HIJ}${base_name} ${BRU}backup successful${RST}\n"
+            else
+                log_error "Error backup: $base_name"
+                echo -en "${BLD}${MER}${base_name} ${KUN}backup failed${RST}\n"
+            fi
+            sleep 0.5
+        else
+            echo -en "${BLD}${KUN}${base_name} ${BRU}not found${RST}\n"
+            sleep 0.3
+        fi
+    }
+
+    # Backup of main configurations
+    local config_folders=(hypr kitty matugen ncmpcpp yazi zsh)
+    for folder in "${config_folders[@]}"; do
+        backup_item d "$HOME/.config/$folder" "$folder"
+    done
+
+    # Backup of individual files
+    local single_files=("$HOME/.zshrc")
+    for item in "${single_files[@]}"; do
+        if [[ "$item" == *".zshrc" ]]; then
+            backup_item d "$item" ".zshrc"
+        else
+            backup_item f "$item" "$(basename "$item")"
+        fi
+    done
+
+    echo -en "\n${BLD}${HIJ}Backup completed!${RST}\n\n"
+    sleep 3
+}
+
+
+install_dotfiles() {
+    clear
+    logo "Installing dotfiles.."
+    printf "Copying files to respective directories..\n"
+
+    # Create required directories
+    local required_dirs=("$HOME/.config" "$HOME/.local/bin" "$HOME/.local/share")
+    for dir in "${required_dirs[@]}"; do
+        if [ ! -d "$dir" ]; then
+            mkdir -p "$dir" 2>> "$ERROR_LOG" && \
+            echo -en "${BLD}${HIJ}Created directory: ${BRU}${dir}${RST}\n"
+        fi
+    done
+
+    # Generic function to copy files
+    copy_files() {
+        local source="$1"
+        local target="$2"
+        local item_name=$(basename "$source")
+
+        if cp -R "$source" "$target" 2>> "$ERROR_LOG"; then
+            echo -en "${BLD}${KUN}${item_name} ${HIJ}copied successfully!${RST}\n"
+            return 0
+        else
+            log_error "Failed to copy: $item_name"
+            echo -en "${BLD}${KUN}${item_name} ${MER}copy failed!${RST}\n"
+            return 1
+        fi
+    }
+
+        local config_source="$HOME/dotfiles-hypr/config"
+    for config_dir in "$config_source"/*; do
+        local dir_name=$(basename "$config_dir")
+
+        # Skip neovim if the user doesn't want it
+        [[ "$dir_name" == "nvim" && "$try_nvim" != "y" ]] && continue
+
+        copy_files "$config_dir" "$HOME/.config/"
+        sleep 0.3
+    done
+
+    # Copy miscellaneous components
+    local misc_items=("applications" "asciiart" "fonts" "bin")
+    for item in "${misc_items[@]}"; do
+        local source_path="$HOME/dotfiles-hypr/misc/$item"
+        local target_path="$HOME/.local/share/"
+
+        [[ "$item" == "bin" ]] && target_path="$HOME/.local/"
+
+        copy_files "$source_path" "$target_path"
+        sleep 0.3
+    done
+
+    # Copy remaining files
+    local home_files=("$HOME/dotfiles-hypr/home/.zshrc")
+    for file in "${home_files[@]}"; do
+        copy_files "$file" "$HOME/"
+    done
+
+    # Update font cache
+    if fc-cache -rv >/dev/null 2>&1; then
+        echo -en "\n${BLD}${HIJ}Font cache updated successfully!${RST}\n"
+    else
+        log_error "Failed to update font cache"
+    fi
+
+    # Generate xdg dirs
+    if [[ ! -e "$HOME/.config/user-dirs.dirs" ]]; then
+        if xdg-user-dirs-update >/dev/null 2>&1; then
+            echo -en "${BLD}${HIJ}Xdg dirs generated successfully!${RST}\n"
+        else
+            log_error "Failed to generate xdg dirs"
+        fi
+    fi
+
+    echo -en "\n${BLD}${HIJ}Dotfiles installed successfully!${RST}\n"
+    sleep 3
+}
+
+#ngke
+install_aur() {
+    clear
+    logo "Installing AUR dependencies."
+    sleep 2
+
+    logo "installing Yay, Paru, Adilhyz-repo (Needed), Neofetch, Xwinwrap, i3lock, Eww, Fzf-tab, Cpuid, & xqp"
+
+    if ! command -v yay >/dev/null 2>&1; then
+        printf "%s%sInstalling yay%s\n" "${BLD}" "${BRU}" "${RST}"
+        cd
+        git clone https://aur.archlinux.org/yay.git
+        cd yay
+        makepkg -si --noconfirm
+        cd
+    else
+        printf "%s%sYay is already installed%s\n" "${BLD}" "${HIJ}" "${RST}"
+    fi
+
+    if ! command -v paru >/dev/null 2>&1; then
+        printf "%s%sInstalling paru%s\n" "${BLD}" "${BRU}" "${RST}"
+        cd
+        git clone https://aur.archlinux.org/paru-bin.git
+        cd paru-bin
+        makepkg -si --noconfirm
+        cd
+    else
+        printf "%s%sParu is already installed%s\n" "${BLD}" "${HIJ}" "${RST}"
+    fi
+
+    if ! command -v neofetch >/dev/null 2>&1; then 
+        printf "\n%s%sInstalling Neofetch for fetch your systems.%s\n" "${BLD}" "${BRU}" "${RST}"
+        paru -S neofetch-git --skipreview --noconfirm --needed
+    fi
+
+    if ! command -v cava >/dev/null 2>&1; then 
+        printf "\n%s%sInstalling cava Visualizer.%s\n" "${BLD}" "${BRU}" "${RST}"
+        paru -S cava --skipreview --noconfirm --needed
+    fi
+
+    # Installing Fzf-tab
+    if pacman -Qq fzf-tab-git >/dev/null 2>&1; then
+        printf "\n%s%sFzf-tab is already installed%s\n" "${BLD}" "${HIJ}" "${RST}"
+    else
+        printf "\n%s%sInstalling Fzf-tab, this should be fast!%s\n" "${BLD}" "${BRU}" "${RST}"
+        paru -S fzf-tab-git --skipreview --noconfirm --needed
+    fi
+
+    # Installing Cpuid
+    if pacman -Qq cpuid >/dev/null 2>&1; then
+        printf "\n%s%sCpuid is already installed%s\n" "${BLD}" "${HIJ}" "${RST}"
+    else
+        printf "\n%s%sInstalling Cpuid, this should be fast%s\n" "${BLD}" "${BRU}" "${RST}"
+        paru -S cpuid --skipreview --noconfirm --needed
+    fi
+}
+
+change_default_shell() {
+    clear
+    logo "Changing default shell to zsh"
+    local zsh_path=$(which zsh)
+    sleep 3
+
+    if [[ -z "$zsh_path" ]]; then
+        log_error "Zsh binary not found"
+        echo -en "${BLD}${MER}Zsh is not installed! Cannot change shell${RST}\n\n"
+        return 1
+    fi
+
+    if [[ "$SHELL" != "$zsh_path" ]]; then
+        echo -en "${BLD}${KUN}Changing your shell to Zsh...${RST}\n"
+
+        if chsh -s "$zsh_path" 2> >(tee -a "$ERROR_LOG"); then
+            echo -en "\n${BLD}${HIJ}Shell changed successfully!${RST}\n"
+        else
+            log_error "Failed to change shell to Zsh"
+            echo -en "\n${BLD}${MER}Error changing shell! ${KUN}Check RiceError.log${RST}\n\n"
+        fi
+    else
+        echo -en "${BLD}${HIJ}Zsh is already your default shell!${RST}\n\n"
+    fi
+
+    sleep 3
+}
+
+
+final_prompt() {
+    clear
+    logo "Installation Complete"
+    sleep 2
+
+    echo -en "${BLD}${HIJ}Installation completed successfully!${RST}\n"
+    echo -en "${BLD}${MER}You ${BRU}MUST ${MER}restart your system to apply changes${RST}\n\n"
+
+    while true; do
+        read -rp " ${BLD}${KUN}Reboot now?${RST} [y/N]: " yn
+        case "${yn,,}" in
+            y|yes)
+                echo -en "\n${BLD}${HIJ}Initiating reboot...${RST}\n"
+                sleep 2
+                if ! sudo reboot >> "$ERROR_LOG" 2>&1; then
+                    log_error "Failed to trigger reboot"
+                    echo -en "${BLD}${MER}Reboot failed! Execute manually${RST}\n"
+                fi
+                exit 0
+                ;;
+            n|no|"")
+                echo -en "\n${BLD}${KUN}Remember to reboot later!${RST}\n\n"
+                zsh
+                exit 0
+                ;;
+            *)
+                echo -en "\n${BLD}${MER}Invalid choice - use '${KUN}y${MER}' or '${KUN}n${MER}'${RST}\n\n"
+                sleep 1
+                ;;
+        esac
+    done
+}
+
+# --- Main run --- #
+initial_checks
+welcome
+install_dependencies
+install_adilhyz_dependencies
+clone_dotfiles
+
+backup_existing_config
+install_dotfiles
+install_aur
+change_default_shell
+final_prompt

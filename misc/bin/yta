@@ -1,0 +1,38 @@
+#!/bin/bash
+#  : github.com/jordandalley/yt-dlp-scripts
+#  : adilhyz
+#  : github.com/adilhyz/dotfiles-v1
+
+echo "Retrieving album information..."
+
+input_url="$1"
+
+echo "Album information retrieved..."
+
+# Extract metadata using yt-dlp
+
+jsondata=$(yt-dlp -j --playlist-items 1 $1)
+metadata=$(yt-dlp --dump-json "$input_url")
+
+# Extract relevant information
+channel=$(echo "$metadata" | jq -r .uploader)
+year=$(echo "$metadata" | jq -r '.upload_date[0:4]')
+artisto=$(echo $jsondata | jq -r .artist)
+artist=${artisto%%,*}
+
+# Check if artist is empty or null, then use channel as the artist
+if [ "$artist" == "null" ] || [ -z "$artist" ]; then
+    artist="$channel"
+fi
+
+# Download the video with corrected metadata
+yt-dlp --ignore-errors \
+      --format "(bestaudio[acodec^=opus]/bestaudio)/best" \
+      --extract-audio \
+      --audio-format mp3 \
+      --audio-quality 320k \
+      --add-metadata \
+      --postprocessor-args "-metadata date='${year}' -metadata artist=\"${artist}\" -metadata album_artist=\"${channel}\"" \
+      --embed-thumbnail \
+      --ppa "EmbedThumbnail+ffmpeg_o:-c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" \
+      -o "%(title)s.%(ext)s" "$input_url"
