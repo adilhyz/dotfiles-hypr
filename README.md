@@ -58,7 +58,8 @@ Finally run the [installer](Installer)
 | Start/Stop Recording                 | <kbd>SUPER</kbd>+<kbd>G</kbd>                              |
 | Reload Hyprland & Waybar/Swaync      | <kbd>SUPER</kbd>+<kbd>SHIFT</kbd>+<kbd>R</kbd>             |
 
-#### Info
+### Info
+
 | Action                               | Key Combination                                            |
 |--------------------------------------|------------------------------------------------------------|
 | Open Rofi                            | <kbd>SUPER</kbd>+<kbd>CTRL</kbd>+<kbd>RETURN</kbd>         |
@@ -68,6 +69,7 @@ Finally run the [installer](Installer)
 | Screenshot (Now)                     | <kbd>Print</kbd>                                           |
 
 ### Window Switcher
+
 | Action                               | Key Combination                                            |
 |--------------------------------------|------------------------------------------------------------|
 | Wallpaper Picker                     | <kbd>SUPER</kbd>+<kbd>ALT</kbd>+<kbd>W</kbd>               |
