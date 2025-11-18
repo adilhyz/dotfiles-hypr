@@ -110,7 +110,7 @@ install_dependencies() {
     sleep 2
 
     # Dependencies
-    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh fastfetch rofi swaybg swww swaync hyprpolkitagent matugen brightnessctl pamixer libnotify)
+    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh cava fastfetch rofi swaybg swww swaync hyprpolkitagent matugen brightnessctl pamixer libnotify)
 
     printf "\n%b\n\n" "${BLD}${BRU}Checking for required packages...${RST}"
     sleep 2
@@ -415,11 +415,6 @@ install_aur() {
     if ! command -v neofetch >/dev/null 2>&1; then 
         printf "\n%s%sInstalling Neofetch for fetch your systems.%s\n" "${BLD}" "${BRU}" "${RST}"
         paru -S neofetch-git --skipreview --noconfirm --needed
-    fi
-
-    if ! command -v cava >/dev/null 2>&1; then 
-        printf "\n%s%sInstalling cava Visualizer.%s\n" "${BLD}" "${BRU}" "${RST}"
-        paru -S cava --skipreview --noconfirm --needed
     fi
 
     # Installing Fzf-tab
