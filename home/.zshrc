@@ -204,5 +204,5 @@ alias nv="nvim"
 #  ┌─┐┬ ┬┌┬┐┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌┬┐
 #  ├─┤│ │ │ │ │  └─┐ │ ├─┤├┬┘ │ 
 #  ┴ ┴└─┘ ┴ └─┘  └─┘ ┴ ┴ ┴┴└─ ┴ 
-$HOME/.local/bin/colorscript -r
+#$HOME/.local/bin/colorscript -r
 #disable-fzf-tab

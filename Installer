@@ -110,7 +110,7 @@ install_dependencies() {
     sleep 2
 
     # Dependencies
-    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh rofi swaybg swww swaync hyprpolkitagent matugen brightnessctl pamixer libnotify)
+    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh fastfetch rofi swaybg swww swaync hyprpolkitagent matugen brightnessctl pamixer libnotify)
 
     printf "\n%b\n\n" "${BLD}${BRU}Checking for required packages...${RST}"
     sleep 2
@@ -283,7 +283,7 @@ backup_existing_config() {
     }
 
     # Backup of main configurations
-    local config_folders=(hypr kitty matugen ncmpcpp yazi zsh)
+    local config_folders=(hypr kitty fastfetch matugen ncmpcpp yazi zsh)
     for folder in "${config_folders[@]}"; do
         backup_item d "$HOME/.config/$folder" "$folder"
     done

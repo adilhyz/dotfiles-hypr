@@ -47,7 +47,8 @@
     "custom/launcher": {
         "format":"⋏",
         "on-click": "exec rofi -show drun -config $HOME/.config/hypr/rofi/config.rasi",
-        "tooltip": false,
+        "tooltip": true,
+        "tooltip-format": "Menu Launcher",
     },
 
     "hyprland/window": {
@@ -92,7 +93,7 @@
         // "format-full": "",
         "format-icons": ["", "", "", "", ""],
         //"format-alt": "{time}",
-        "on-click": "kitty --name=sysfetch --class=sysfetch -e ~/.local/bin/sysfetch",
+        "on-click": "kitty --name=sysfetch --class=sysfetch -e ~/.config/hypr/scripts/sysfetch.sh",
     },
 
     "temperature": {
