@@ -142,7 +142,7 @@ install_dependencies() {
     sleep 2
 
     # Dependencies
-    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh cava fastfetch rofi swaybg swww swaync hyprpolkitagent matugen brightnessctl pamixer libnotify)
+    dependencies=(hyprland xdg-desktop-portal-hyprland xorg-xwayland hyprpaper hypridle hyprlock hyprpicker qt6-wayland wl-clipboard wsunset cliphist nwg-look grim slurp waybar zsh cava fastfetch rofi rofi-emoji wtype swaybg swww swaync hyprpolkitagent matugen brightnessctl pamixer libnotify)
 
     printf "\n%b\n\n" "${BLD}${BRU}Checking for required packages...${RST}"
     sleep 2

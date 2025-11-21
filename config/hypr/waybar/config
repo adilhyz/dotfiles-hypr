@@ -4,7 +4,6 @@
     "height": 37,
     //"width": 1350,
     "margin": "3, 0, 2, 0",
-    "include": ["~/.config/waybar/modules.jsonc"],
     "modules-left": [
            "custom/launcher",
            "hyprland/workspaces",
@@ -16,7 +15,8 @@
            "clock"
     ],
     "modules-right": [
-           "tray",
+           "group/tray-expander",
+           "custom/wlsunset",
            "cpu",
            "memory",
            "disk",
@@ -24,7 +24,8 @@
            "custom/audiorec",
            "backlight",
            "pulseaudio",
-           "custom/wlsunset",
+           "bluetooth",
+           "network",
            "battery",
            "custom/power"
     ],
@@ -47,6 +48,7 @@
     "custom/launcher": {
         "format":"⋏",
         "on-click": "exec rofi -show drun -config $HOME/.config/hypr/rofi/config.rasi",
+        "on-click-right": "kitty --name=sysfetch --class=sysfetch -e ~/.config/hypr/scripts/sysfetch.sh",
         "tooltip": true,
         "tooltip-format": "Menu Launcher",
     },
@@ -83,7 +85,7 @@
     "battery": {
         "states": {
             // "good": 95,
-            "warning": 15,
+            "warning": 20,
             "critical": 15
         },
         "format": "{icon} {capacity}%",
@@ -92,8 +94,7 @@
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""],
-        //"format-alt": "{time}",
-        "on-click": "kitty --name=sysfetch --class=sysfetch -e ~/.config/hypr/scripts/sysfetch.sh",
+        //"format-alt": "{time} {icon}"
     },
 
     "temperature": {
@@ -102,18 +103,18 @@
         "format": "{temperatureC}° "
     },
 
-    "network": {
+   "network": {
+        "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
         "format": "{icon}",
-        "format-alt": "{ipaddr}/{cidr} {icon}",
-        "format-alt-click": "click-right",
-        "format-wifi": "{icon} ({signalStrength}%)",
-        "format-icons": {
-            "wifi": ["睊", "直" ,""],
-            "ethernet": [""],
-            "disconnected": [""]
-        },
-        "on-click": "kitty nmtui",
-        "tooltip-format": "{ifname}: {ipaddr}",
+        "format-wifi": "{icon}",
+        "format-ethernet": "󰀂",
+        "format-disconnected": "󰤮",
+        "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+        "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+        "tooltip-format-disconnected": "Disconnected",
+        "interval": 3,
+        "spacing": 1,
+        "on-click": "omarchy-launch-wifi"
     },
 
     "pulseaudio": {
@@ -155,6 +156,33 @@
 
     "tray": {
         "icon-size": 15
+    },
+
+    "group/tray-expander": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 600,
+            "children-class": "tray-group-item"
+        },
+        "modules": ["custom/expand-icon", "tray"]
+    },
+    "custom/expand-icon": {
+        "format": "",
+        "tooltip": false
+    },
+    "custom/screenrecording-indicator": {
+        "on-click": "omarchy-cmd-screenrecord",
+        "exec": "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh",
+        "signal": 8,
+        "return-type": "json"
+    },
+
+    "bluetooth": {
+        "format": "",
+        "format-disabled": "󰂲",
+        "format-connected": "",
+        "tooltip-format": "Devices connected: {num_connections}",
+        "on-click": "blueberry"
     },
 
     "disk": {

@@ -59,19 +59,45 @@
 #tray {
   margin: 3px 2px;
   border-radius: 12px;
-  background-color: rgba(0,0,0,0.4);
+  background-color: @surface_container;
 }
 
 #tray * {
   padding: 0 6px;
-  border-left: 1px solid black;
+  margin: 3px 2px;
 }
 
 #tray *:first-child {
   border-left: none;
 }
 
-#mode, #battery, #cpu, #disk, #memory, #network, #pulseaudio, #idle_inhibitor, #backlight, #mpd, #clock, #temperature {
+tooltip {
+  padding: 2px;
+}
+
+#custom-update {
+  font-size: 10px;
+}
+
+#clock {
+  margin-left: 8.75px;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+#custom-screenrecording-indicator {
+  min-width: 12px;
+  margin-left: 8.75px;
+  font-size: 10px;
+}
+
+#custom-screenrecording-indicator.active {
+  color: #a55555;
+}
+
+#bluetooth, #custom-wlsunset, #custom-expand-icon, #mode, #battery, #idle_inhibitor, #cpu, #disk, #memory, #network, #pulseaudio,  #backlight, #mpd, #clock, #temperature {
   margin: 4px 2px;
   padding: 0 6px;
   border-radius: 20px;
@@ -100,7 +126,7 @@
 #custom-recorder, #custom-audiorec {
   margin: 4px 2px;
   padding: 0 6px;
-  background-color: rgba(175,65,84,0.8);
+  background-color: @error;
 }
 
 #custom-launcher{
